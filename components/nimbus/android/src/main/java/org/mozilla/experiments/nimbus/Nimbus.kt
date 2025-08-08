@@ -22,6 +22,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import mozilla.appservices.remotesettings.RemoteSettingsConfig
 import mozilla.appservices.remotesettings.RemoteSettingsServer
@@ -459,6 +460,12 @@ open class Nimbus(
                 nimbusClient.recordEvent(eventId, count)
             }
         }
+    }
+
+    @AnyThread
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    public fun recordEventSync(count: Long, eventId: String) = 
+            nimbusClient.recordEvent(eventId, count)
     }
 
     override fun recordPastEvent(count: Long, eventId: String, secondsAgo: Long) =
